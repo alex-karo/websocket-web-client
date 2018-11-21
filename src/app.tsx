@@ -1,3 +1,4 @@
+import Paper from '@material-ui/core/Paper/Paper';
 import * as _ from 'lodash';
 import * as pako from 'pako';
 import * as React from "react";
@@ -16,14 +17,10 @@ const AppContainer = styled.main`
 `;
 
 const MainContainer = styled.section`
-  background-color: white;
-  border: 1px solid #ccc;
   padding: 1rem;
 `;
 
 const SideContainer = styled.section`
-  background-color: white;
-  border: 1px solid #ccc;
   padding: 1rem;
 `;
 
@@ -33,7 +30,8 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     padding-top: 1rem;
-    background-color: #f5f5f5;
+    background-color: #FAFAFA;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   }
 `;
 
@@ -78,10 +76,10 @@ export class App extends React.Component<{}, IState> {
         content: mutatedContent,
         time,
         type,
-      }
+      };
     });
     return <AppContainer>
-      <MainContainer>
+      <MainContainer as={Paper}>
         <Connect
           connected={connected}
           onConnect={this.connectToServer}
@@ -94,10 +92,11 @@ export class App extends React.Component<{}, IState> {
         <MessageLog messages={changedMessages}/>
         <GlobalStyle/>
       </MainContainer>
-      <SideContainer>
+      <SideContainer as={Paper}>
         <CodeEditor
+          title="Input data mutator"
           onChange={this.changeMutatorFunction}
-          defaultCode={'const {data, pako, _} = props;\n\n// Write code here\n\nreturn data;'}
+          defaultCode={'const {data, pako, _} = props;\n\n// Write code here\nlet res = data;\n\nreturn res;'}
         />
       </SideContainer>
     </AppContainer>;

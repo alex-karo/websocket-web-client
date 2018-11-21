@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import * as React from "react";
 import styled from "styled-components";
 import { IMessage } from './app';
@@ -32,14 +33,14 @@ const MessageContent = styled.div`
   word-wrap: break-word;
 `;
 
-export class MessageLog extends React.Component<IProps> {
+export class MessageLog extends React.PureComponent<IProps> {
   public render(): React.ReactNode {
     const {messages} = this.props;
     return <MessagesContainer>
       {messages.map(({type, time, content}) =>
         <MessageItem key={time}>
           <MessageType>[{type}]</MessageType>
-          <MessageTime>{new Date(time).toLocaleTimeString()}</MessageTime>
+          <MessageTime>{format(time, 'HH:mm:ss')}</MessageTime>
           <MessageContent>{content}</MessageContent>
         </MessageItem>
       )}

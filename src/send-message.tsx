@@ -26,7 +26,7 @@ const SendButton = styled.div`
   align-items: flex-end;
 `;
 
-export class SendMessage extends React.Component<IProps, IState> {
+export class SendMessage extends React.PureComponent<IProps, IState> {
   public state: IState = {
     message: '',
   };
