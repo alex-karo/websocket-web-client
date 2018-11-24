@@ -68,7 +68,12 @@ export class Connect extends React.Component<IProps, IState> {
           fullWidth={true}
         />
       </ConnectInput>
-      <LogSelectMenu id="message-log-menu" options={this.state.log} onChange={this.onSelectOldUrl} />
+      <LogSelectMenu
+        id="connect-log-menu"
+        options={this.state.log}
+        onChange={this.onSelectOldUrl}
+        disabled={connected}
+      />
       <ConnectButton>
         {connected ?
           <Button onClick={this.props.onDisconnect}>Disconnect</Button> :

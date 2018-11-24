@@ -10,6 +10,7 @@ interface IProps {
   options: string[];
   id: string;
   onChange: (text: string) => void;
+  disabled?: boolean;
 }
 
 interface IState {
@@ -36,18 +37,19 @@ export class LogSelectMenu extends React.Component<IProps, IState> {
 
   public render() {
     const { anchorEl } = this.state;
+    const { options, disabled, id } = this.props;
     const open = Boolean(anchorEl);
 
     return (
       <div>
         <IconButton
           onClick={this.handleClick}
-          disabled={this.props.options.length === 0}
+          disabled={disabled || options.length === 0}
         >
           <HistoryIcon />
         </IconButton>
         <Menu
-          id={this.props.id}
+          id={id}
           anchorEl={anchorEl}
           open={open}
           onClose={this.handleClose}
@@ -58,7 +60,7 @@ export class LogSelectMenu extends React.Component<IProps, IState> {
             },
           }}
         >
-          {this.props.options.map(option => (
+          {options.map(option => (
             <MenuItem key={option} onClick={this.handleChange(option)}>
               {option}
             </MenuItem>

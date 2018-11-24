@@ -71,7 +71,7 @@ export class SendMessage extends React.PureComponent<IProps, IState> {
       log: newLog,
       message: '',
     });
-    localStorage.setItem('connect-log', JSON.stringify(newLog));
+    localStorage.setItem('out-message-log', JSON.stringify(newLog));
   };
 
   public onChangeMessageType = (e: ChangeEvent<HTMLInputElement>) => {
