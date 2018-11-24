@@ -1,6 +1,6 @@
 import 'brace';
 import 'brace/mode/javascript';
-import 'brace/theme/solarized_light';
+import 'brace/theme/github';
 import * as _ from 'lodash';
 import * as React from "react";
 import AceEditor from 'react-ace';

@@ -28,8 +28,7 @@ const SideContainer = styled.section`
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
-    padding: 0;
-    padding-top: 1rem;
+    padding: 1rem 0;
     background-color: #FAFAFA;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   }
@@ -47,7 +46,7 @@ interface IState {
   connected: boolean;
   messages: IMessage[];
   // @ts-ignore
-  mutatorFunc?: (props) => string;
+  mutatorFunc?: (props, imports) => string;
 }
 
 export class App extends React.Component<{}, IState> {
@@ -67,7 +66,7 @@ export class App extends React.Component<{}, IState> {
       let mutatedContent;
       try {
         mutatedContent = mutatorFunc && type === 'in' ?
-          _.toString(mutatorFunc({data: content, _, pako})) :
+          _.toString(mutatorFunc({data: content, time}, {pako, _})) :
           content;
       } catch (e) {
         mutatedContent = `Error: ${e}`;
@@ -78,6 +77,8 @@ export class App extends React.Component<{}, IState> {
         type,
       };
     });
+    const defaultCode = 'const {data, time} = props;\n' +
+      'const {_, pako} = imports;\n\n// Write code here\nlet res = data;\n\nreturn res;';
     return <AppContainer>
       <MainContainer as={Paper}>
         <Connect
@@ -90,22 +91,22 @@ export class App extends React.Component<{}, IState> {
           connected={connected}
         />
         <MessageLog messages={changedMessages}/>
-        <GlobalStyle/>
       </MainContainer>
       <SideContainer as={Paper}>
         <CodeEditor
           title="Input data mutator"
           onChange={this.changeMutatorFunction}
-          defaultCode={'const {data, pako, _} = props;\n\n// Write code here\nlet res = data;\n\nreturn res;'}
+          defaultCode={defaultCode}
         />
       </SideContainer>
+      <GlobalStyle/>
     </AppContainer>;
   }
 
   private changeMutatorFunction = (text: string) => {
     try {
       // @ts-ignore
-      const func = new Function('props', text);
+      const func = new Function('props', 'imports', text);
       // @ts-ignore
       this.setState({mutatorFunc: func});
     } catch (e) {
@@ -120,7 +121,9 @@ export class App extends React.Component<{}, IState> {
     ws.onerror = this.onError;
     ws.onopen = (event) => {
       this.ws = ws;
-      this.setState({connected: true});
+      this.setState({
+        connected: true,
+      });
       this.addMessage('info', 'Connected');
     };
 
@@ -143,7 +146,9 @@ export class App extends React.Component<{}, IState> {
       return;
     }
     this.ws.send(data);
-    this.setState({messages: [{time: Date.now(), content: data, type: 'out'}, ...this.state.messages]});
+    this.setState({
+      messages: [{time: Date.now(), content: data, type: 'out'}, ...this.state.messages],
+    });
   };
 
   private onError = (e: Event) => {
