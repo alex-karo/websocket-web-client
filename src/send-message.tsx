@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField/TextField';
 import 'brace';
 import 'brace/mode/json';
 import 'brace/theme/github';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as React from "react";
 import { ChangeEvent } from 'react';
 import AceEditor from 'react-ace';
@@ -40,6 +40,11 @@ const SendControl = styled.div`
   text-align: right;
 `;
 const SendCheckbox = styled.div``;
+const MessageHint = styled.div`
+  font-size: .75em;
+  color: rgba(0, 0, 0, 0.54);
+  margin-bottom: .3em;
+`;
 
 export class SendMessage extends React.PureComponent<IProps, IState> {
   public state: IState = {
@@ -83,19 +88,22 @@ export class SendMessage extends React.PureComponent<IProps, IState> {
     return <SendContainer>
       <SendInput>
         {this.state.isJson ?
-          <AceEditor
-            mode="json"
-            theme="github"
-            onChange={this.onChangeMessage}
-            name="json-message-input"
-            height="70px"
-            width="100%"
-            value={this.state.message}
-            editorProps={{$blockScrolling: true}}
-            readOnly={!connected}
-            highlightActiveLine={false}
-            showPrintMargin={false}
-          />
+          <div>
+            <MessageHint>Message</MessageHint>
+            <AceEditor
+              mode="json"
+              theme="github"
+              onChange={this.onChangeMessage}
+              name="json-message-input"
+              height="70px"
+              width="100%"
+              value={this.state.message}
+              editorProps={{$blockScrolling: true}}
+              readOnly={!connected}
+              highlightActiveLine={false}
+              showPrintMargin={false}
+            />
+          </div>
           :
           <TextField
             id="message"
@@ -130,7 +138,12 @@ export class SendMessage extends React.PureComponent<IProps, IState> {
             label="JSON"
           />
         </SendCheckbox>
-        <LogSelectMenu id="message-log-menu" options={this.state.log} onChange={this.onChangeMessage} />
+        <LogSelectMenu
+          id="message-log-menu"
+          options={this.state.log}
+          onChange={this.onChangeMessage}
+          disabled={!connected}
+        />
       </SendControl>
     </SendContainer>;
   }

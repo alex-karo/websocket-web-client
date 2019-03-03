@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button/Button';
 import TextField from '@material-ui/core/TextField/TextField';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as React from "react";
 import { ChangeEvent } from 'react';
 import styled from 'styled-components';
@@ -32,7 +32,7 @@ const ConnectButton = styled.div`
 export class Connect extends React.Component<IProps, IState> {
   public state: IState = {
     log: [],
-    url: 'ws://echo.websocket.org',
+    url: 'wss://echo.websocket.org',
   };
 
   constructor(props: IProps) {

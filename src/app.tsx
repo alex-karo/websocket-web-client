@@ -5,15 +5,47 @@ import * as React from "react";
 import styled, { createGlobalStyle } from 'styled-components';
 import { CodeEditor } from './code-editor';
 import { Connect } from './connect';
+import ghLogo from './github.svg';
 import { MessageLog } from './message-log';
 import { SendMessage } from './send-message';
 
-const AppContainer = styled.main`
+const Wrapper = styled.div`
   margin: auto;
   width: 1400px;
+`;
+
+const Header = styled.header`
+background-color: #17181B;
+height: 2rem;
+
+& ${Wrapper} {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+`;
+
+const AppContainer = styled.main`
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   display: grid;
   grid-template-columns: 900px 500px;
   grid-column-gap: 10px;
+`;
+
+const MainTitle = styled.h1`
+font-size: 1.5rem;
+color: white;
+margin: 0;
+`;
+
+const GitHubLink = styled.a`
+ width: 1.5rem;
+ height: 1.5rem;
+ 
+ svg {
+  fill: white;
+ }
 `;
 
 const MainContainer = styled.section`
@@ -28,7 +60,7 @@ const SideContainer = styled.section`
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
-    padding: 1rem 0;
+    padding: 0;
     background-color: #FAFAFA;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   }
@@ -79,28 +111,40 @@ export class App extends React.Component<{}, IState> {
     });
     const defaultCode = 'const {data, time} = props;\n' +
       'const {_, pako} = imports;\n\n// Write code here\nlet res = data;\n\nreturn res;';
-    return <AppContainer>
-      <MainContainer as={Paper}>
-        <Connect
-          connected={connected}
-          onConnect={this.connectToServer}
-          onDisconnect={this.disconnectFromServer}
-        />
-        <SendMessage
-          onSendMessage={this.onSendMessage}
-          connected={connected}
-        />
-        <MessageLog messages={changedMessages}/>
-      </MainContainer>
-      <SideContainer as={Paper}>
-        <CodeEditor
-          title="Input data mutator"
-          onChange={this.changeMutatorFunction}
-          defaultCode={defaultCode}
-        />
-      </SideContainer>
-      <GlobalStyle/>
-    </AppContainer>;
+    return <div>
+      <Header>
+        <Wrapper>
+          <MainTitle>WS Web Client</MainTitle>
+          <GitHubLink href="https://github.com/alex-karo/websocket-web-client">
+            <img src={ghLogo} alt="GitHub Repo"/>
+          </GitHubLink>
+        </Wrapper>
+      </Header>
+      <Wrapper>
+        <AppContainer>
+          <MainContainer as={Paper}>
+            <Connect
+              connected={connected}
+              onConnect={this.connectToServer}
+              onDisconnect={this.disconnectFromServer}
+            />
+            <SendMessage
+              onSendMessage={this.onSendMessage}
+              connected={connected}
+            />
+            <MessageLog messages={changedMessages}/>
+          </MainContainer>
+          <SideContainer as={Paper}>
+            <CodeEditor
+              title="Input data mutator"
+              onChange={this.changeMutatorFunction}
+              defaultCode={defaultCode}
+            />
+          </SideContainer>
+          <GlobalStyle/>
+        </AppContainer>
+      </Wrapper>
+    </div>;
   }
 
   private changeMutatorFunction = (text: string) => {
@@ -119,7 +163,7 @@ export class App extends React.Component<{}, IState> {
     ws.onmessage = this.onMessage;
     ws.onclose = this.onConnectionClose;
     ws.onerror = this.onError;
-    ws.onopen = (event) => {
+    ws.onopen = () => {
       this.ws = ws;
       this.setState({
         connected: true,
