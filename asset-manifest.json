@@ -1,4 +1,12 @@
 {
-  "main.js": "static/js/main.b3b2fcc7.js",
-  "main.js.map": "static/js/main.b3b2fcc7.js.map"
+  "main.js": "/websocket-web-client/static/js/main.fc4305d1.chunk.js",
+  "main.js.map": "/websocket-web-client/static/js/main.fc4305d1.chunk.js.map",
+  "runtime~main.js": "/websocket-web-client/static/js/runtime~main.5039b923.js",
+  "runtime~main.js.map": "/websocket-web-client/static/js/runtime~main.5039b923.js.map",
+  "static/js/2.c7bfabb6.chunk.js": "/websocket-web-client/static/js/2.c7bfabb6.chunk.js",
+  "static/js/2.c7bfabb6.chunk.js.map": "/websocket-web-client/static/js/2.c7bfabb6.chunk.js.map",
+  "index.html": "/websocket-web-client/index.html",
+  "precache-manifest.9ff4f38ade1651619246495c8aff33a3.js": "/websocket-web-client/precache-manifest.9ff4f38ade1651619246495c8aff33a3.js",
+  "service-worker.js": "/websocket-web-client/service-worker.js",
+  "static/media/github.svg": "/websocket-web-client/static/media/github.74f71385.svg"
 }
